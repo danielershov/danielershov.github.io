@@ -1,0 +1,7 @@
+{{ define "main" }}
+<article class="page-shell prose">
+  <p><a href="{{ "/" | relURL }}">Home</a> / {{ .Title }}</p>
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</article>
+{{ end }}

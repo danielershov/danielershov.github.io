@@ -1,0 +1,10 @@
+- id: read_more
+  translation: "Read"
+- id: download_pdf
+  translation: "Download PDF"
+- id: publisher_version
+  translation: "Publisher's Version"
+- id: cite
+  translation: "Cite"
+- id: see_also
+  translation: "See Also"

@@ -1,0 +1,10 @@
+{{ define "main" }}
+<section class="page-shell prose">
+  <h1>Page Not Found</h1>
+  <p>The page may have moved. Use search or return to the research page.</p>
+  <div class="button-row">
+    <button class="btn btn-primary js-search-open" type="button">Search</button>
+    <a class="btn btn-secondary" href="{{ "publication/" | relURL }}">Research</a>
+  </div>
+</section>
+{{ end }}

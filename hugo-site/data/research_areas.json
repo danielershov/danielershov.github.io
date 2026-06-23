@@ -1,0 +1,82 @@
+{
+  "areas": [
+    {
+      "slug": "algorithmic-pricing-and-competition",
+      "title": "Algorithmic Pricing and Competition",
+      "description": "Pricing algorithms, outsourced algorithm design, and the conditions under which algorithmic systems change competitive conduct.",
+      "featured": [
+        "algorithmic-pricing-competition-german-retail-gasoline-market",
+        "outsourcing-algorithm-development-contractors-llms",
+        "autonomous-algorithmic-collusion"
+      ],
+      "subcategories": [
+        "algorithmic pricing",
+        "pricing algorithms",
+        "competition policy"
+      ]
+    },
+    {
+      "slug": "competition-policy",
+      "title": "Competition Policy",
+      "description": "Research on market regulation, auction design, innovation incentives, and the empirical basis for competition policy.",
+      "featured": [
+        "interaction-spectrum-auctions-mobile-market-competition",
+        "market-incentives-business-innovation-canada"
+      ],
+      "subcategories": [
+        "competition policy",
+        "market regulation",
+        "spectrum auctions",
+        "innovation"
+      ]
+    },
+    {
+      "slug": "digital-platforms-and-online-markets",
+      "title": "Digital Platforms and Online Markets",
+      "description": "Empirical work on search, entry, congestion, matching, and information frictions in online markets.",
+      "featured": [
+        "variety-based-congestion-online-markets",
+        "what-happens-when-dating-goes-online",
+        "sharing-news-left-right",
+        "competing-superstars-mobile-app-market"
+      ],
+      "subcategories": [
+        "platforms",
+        "online markets",
+        "mobile apps",
+        "matching"
+      ]
+    },
+    {
+      "slug": "influencer-marketing-and-disclosure",
+      "title": "Influencer Marketing and Disclosure",
+      "description": "Research on hidden advertising, disclosure regulation, and the changing supply of sponsored content on social media.",
+      "featured": [
+        "how-much-influencer-marketing-undisclosed",
+        "effects-advertising-disclosure-regulations-social-media",
+        "expansion-influencer-advertising-ncaa-nil"
+      ],
+      "subcategories": [
+        "influencer marketing",
+        "advertising disclosure",
+        "consumer protection"
+      ]
+    },
+    {
+      "slug": "demand-estimation-and-market-structure",
+      "title": "Demand Estimation and Market Structure",
+      "description": "Demand estimation, complementarity, deregulation, and market design questions in differentiated-product markets.",
+      "featured": [
+        "estimating-complementarity-large-choice-sets",
+        "learned-complementarity",
+        "estimating-effects-deregulation-ontario-wine"
+      ],
+      "subcategories": [
+        "demand estimation",
+        "complementarity",
+        "deregulation",
+        "innovation"
+      ]
+    }
+  ]
+}

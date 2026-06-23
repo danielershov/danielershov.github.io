@@ -1,0 +1,34 @@
+{{ $current := . }}
+{{ $candidates := slice }}
+{{ range where .Site.RegularPages "Section" "publication" }}
+  {{ if ne .RelPermalink $current.RelPermalink }}
+    {{ $score := 0 }}
+    {{ range .Params.areas }}
+      {{ if in ($current.Params.areas | default slice) . }}{{ $score = add $score 3 }}{{ end }}
+    {{ end }}
+    {{ range .Params.tags }}
+      {{ if in ($current.Params.tags | default slice) . }}{{ $score = add $score 2 }}{{ end }}
+    {{ end }}
+    {{ range .Params.authors }}
+      {{ if in ($current.Params.authors | default slice) . }}{{ $score = add $score 1 }}{{ end }}
+    {{ end }}
+    {{ if ge $score 3 }}
+      {{ $candidates = $candidates | append (dict "page" . "score" $score) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if gt (len $candidates) 0 }}
+<section class="gk-see-also">
+  <h2>See Also</h2>
+  <ul>
+    {{ range first 8 (sort $candidates "score" "desc") }}
+      {{ $p := .page }}
+      {{ $label := "Paper" }}
+      {{ if eq $p.Params.status "working_paper" }}{{ $label = "Paper" }}{{ end }}
+      {{ if eq $p.Params.status "resting" }}{{ $label = "Paper" }}{{ end }}
+      {{ if in (slice "cepr_contribution" "policy") $p.Params.status }}{{ $label = "Policy" }}{{ end }}
+      <li><span class="kind-label">[{{ $label }}]</span><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

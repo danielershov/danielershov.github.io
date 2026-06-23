@@ -1,0 +1,29 @@
+{{ define "main" }}
+{{ $owner := .Site.Title }}
+{{ $exclude := slice "Jiewei Li" "Junichi Suzuki" "Justin Johnson" "Marc Duhamel" "Charles Bérubé" "Andrew Rhodes" "Matthijs Wildenbeest" "Sergio Pastorello" "Vincenzo Denicolò" "Emilio Calvano" "Giacomo Calzolari" }}
+{{ $names := slice }}
+{{ range where .Site.RegularPages "Section" "publication" }}
+  {{ range .Params.authors }}
+    {{ if and (ne . $owner) (not (in $exclude .)) (not (in $names .)) }}
+      {{ $names = $names | append . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+<section class="page-shell prose">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <h2>Coauthors</h2>
+  <ul class="people-list">
+    {{ range sort $names }}
+      {{ $entry := index $.Site.Data.coauthors . }}
+      <li>{{ if $entry }}<a href="{{ $entry.url }}">{{ . }}</a>{{ else }}{{ . }}<!-- Missing reviewed external URL for {{ . }} -->{{ end }}</li>
+    {{ end }}
+  </ul>
+  <h2>PhD Students</h2>
+  <ul class="people-list">
+    {{ range .Site.Data.phd_students }}
+      <li><strong>{{ .name }}</strong><br><span class="person-meta">{{ .placement }}</span></li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

@@ -1,0 +1,73 @@
+baseURL: "/"
+title: "Daniel Ershov"
+languageCode: en-us
+defaultContentLanguage: en
+enableRobotsTXT: true
+
+module:
+  imports:
+    - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-tailwind
+
+outputs:
+  home: [HTML, RSS, JSON]
+
+params:
+  description: "Daniel Ershov is an Assistant Professor in the Marketing & Analytics group at the UCL School of Management."
+  author: "Daniel Ershov"
+  appearance:
+    theme_day: custom
+    theme_night: custom
+    color_mode: light
+    font: native
+    font_size: L
+  header:
+    navbar:
+      enable: true
+      show_search: true
+      logo:
+        text: "Daniel Ershov"
+  features:
+    search:
+      provider: pagefind
+  extensions:
+    css:
+      - css/custom.css
+
+taxonomies:
+  tag: tags
+  category: categories
+  publication_type: publication_types
+
+permalinks:
+  publication: /publication/:slug/
+  talk: /talk/:slug/
+  software: /software/:slug/
+
+menu:
+  main:
+    - name: CV
+      url: /bio/
+      weight: 10
+    - name: Research
+      url: /publication/
+      weight: 20
+    - name: People
+      url: /authors/
+      weight: 40
+    - name: Presentations
+      url: /talk/
+      weight: 45
+    - name: Teaching
+      url: /teaching/
+      weight: 50
+    - name: Contact
+      url: /contact/
+      weight: 60
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 3

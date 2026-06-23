@@ -1,0 +1,6 @@
+{{ define "main" }}
+<section class="page-shell prose{{ with .Params.page_class }} {{ . }}{{ end }}">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</section>
+{{ end }}

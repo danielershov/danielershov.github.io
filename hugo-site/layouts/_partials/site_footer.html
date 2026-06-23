@@ -1,0 +1,14 @@
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav class="footer-nav" aria-label="Footer navigation">
+      {{ range .Site.Menus.main }}
+        <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+      {{ end }}
+      <a href="mailto:{{ .Site.Data.profile.email }}">{{ .Site.Data.profile.email }}</a>
+    </nav>
+    <a class="footer-ucl" href="https://www.ucl.ac.uk/school-management/" aria-label="UCL School of Management">
+      <img class="ucl-logo" src="{{ "images/ucl-school-management-dark.png" | relURL }}" width="300" height="140" alt="UCL School of Management">
+    </a>
+    <div class="credit">Created using <a href="https://garyking.org/mysite">GaryKing.org/mysite</a></div>
+  </div>
+</footer>

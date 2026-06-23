@@ -1,0 +1,7 @@
+hugo-site/public/
+hugo-site/resources/_gen/
+hugo-site/.hugo_build.lock
+hugo-site/node_modules/
+hugo-site/_vendor/
+preview/
+.DS_Store

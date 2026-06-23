@@ -1,0 +1,226 @@
+{{ define "main" }}
+{{ $pages := where .Site.RegularPages "Section" "publication" }}
+<section class="page-shell">
+  <div class="prose">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+  </div>
+
+  {{ $tabs := slice
+    (dict "id" "all" "label" "All")
+    (dict "id" "articles" "label" "Articles")
+    (dict "id" "working-papers" "label" "Working Papers")
+    (dict "id" "policy" "label" "Policy")
+    (dict "id" "resting-papers" "label" "Older Working Papers")
+  }}
+  <nav class="pub-tabs" role="tablist" aria-label="Research filters">
+    {{ range $tabs }}
+      <button class="tab-btn" type="button" data-tab="{{ .id }}" role="tab" aria-selected="false">{{ .label }}</button>
+    {{ end }}
+  </nav>
+
+  <div class="writings-grid">
+    <details class="filters" id="research-filters" aria-label="Publication filters" open>
+      <summary class="filters-summary">Filter research</summary>
+      <div class="filters-body">
+        <label for="pub-search">Search</label>
+        <input id="pub-search" type="search" placeholder="Title, author, venue">
+
+        <label for="area-filter">Research area</label>
+        <select id="area-filter">
+          <option value="">All areas</option>
+          {{ range .Site.Data.research_areas.areas }}
+            <option value="{{ .slug }}">{{ .title }}</option>
+          {{ end }}
+        </select>
+
+        <div class="filter-label">Year</div>
+        <div class="checkbox-list" id="year-filters">
+          {{ range $pages.ByDate.Reverse.GroupByDate "2006" }}
+            <label class="check-row"><input type="checkbox" value="{{ .Key }}"> <span>{{ .Key }}</span></label>
+          {{ end }}
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-chip" type="button" id="reset-filters">Reset</button>
+        </div>
+      </div>
+    </details>
+
+    <div>
+      <div class="pub-toolbar">
+        <div class="result-count" aria-live="polite"></div>
+        <label>Sort
+          <select id="sort-pubs">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="az">Title A-Z</option>
+            <option value="za">Title Z-A</option>
+          </select>
+        </label>
+        <button class="btn btn-chip" type="button" id="download-bibtex">Download citations</button>
+      </div>
+
+      <div class="pub-list" id="pub-list">
+        {{ range $pages.ByDate.Reverse }}
+          {{ $paper := . }}
+          {{ $slug := path.Base (path.Dir .File.Path) }}
+          {{ $tab := "working-papers" }}
+          {{ if eq .Params.status "published" }}{{ $tab = "articles" }}{{ end }}
+          {{ if eq .Params.status "resting" }}{{ $tab = "resting-papers" }}{{ end }}
+          {{ if in (slice "cepr_contribution" "policy") .Params.status }}{{ $tab = "policy" }}{{ end }}
+          {{ $authors := delimit .Params.authors ", " }}
+          {{ $types := .Params.publication_types | jsonify }}
+          {{ $areas := .Params.areas | jsonify }}
+          {{ $search := printf "%s %s %s %s" .Title $authors .Params.publication .Params.abstract | lower }}
+          <article class="pub-item" data-tab="{{ $tab }}" data-year="{{ .Date.Format "2006" }}" data-types="{{ $types }}" data-areas="{{ $areas }}" data-title="{{ .Title }}" data-date="{{ .Date.Format "20060102" }}" data-search="{{ $search }}" data-bibtex="{{ .Params.bibtex }}">
+            <div class="pub-citation">
+              <span class="authors">{{ $authors }}.</span>
+              <span class="meta">{{ .Date.Format "2006" }}.</span>
+              <a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a>.
+              {{ with .Params.publication }}<span class="venue">{{ . }}.</span>{{ end }}
+              {{ with .Params.summary }}<p class="pub-summary">{{ . }}</p>{{ end }}
+              {{ with .Params.links }}
+                <div class="pub-links pub-links-inline">
+                  <a class="btn btn-chip" href="{{ $paper.RelPermalink }}">Details</a>
+                  {{ range first 4 . }}
+                    <a class="btn btn-chip" href="{{ .url }}">{{ .name }}</a>
+                  {{ end }}
+                </div>
+              {{ else }}
+                <div class="pub-links pub-links-inline">
+                  <a class="btn btn-chip" href="{{ $paper.RelPermalink }}">Details</a>
+                </div>
+              {{ end }}
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var tabs = document.querySelectorAll('.tab-btn');
+  var list = document.getElementById('pub-list');
+  var items = Array.prototype.slice.call(document.querySelectorAll('.pub-item'));
+  var countEl = document.querySelector('.result-count');
+  var search = document.getElementById('pub-search');
+  var area = document.getElementById('area-filter');
+  var years = Array.prototype.slice.call(document.querySelectorAll('#year-filters input[type="checkbox"]'));
+  var sort = document.getElementById('sort-pubs');
+  var reset = document.getElementById('reset-filters');
+  var cite = document.getElementById('download-bibtex');
+  var filterPanel = document.getElementById('research-filters');
+  var activeTab = 'all';
+
+  function syncFilterPanel() {
+    if (!filterPanel) return;
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      filterPanel.removeAttribute('open');
+    } else {
+      filterPanel.setAttribute('open', '');
+    }
+  }
+
+  function selectedYears() {
+    return years.filter(function(y) { return y.checked; }).map(function(y) { return y.value; });
+  }
+
+  function setHash() {
+    var parts = [activeTab];
+    if (area.value) parts.push('area=' + encodeURIComponent(area.value));
+    if (search.value.trim()) parts.push('q=' + encodeURIComponent(search.value.trim()));
+    var ys = selectedYears();
+    if (ys.length) parts.push('years=' + ys.join(','));
+    history.replaceState(null, '', '#' + parts.join('&'));
+  }
+
+  function parseHash() {
+    var raw = location.hash.replace(/^#/, '');
+    if (!raw) return;
+    raw.split('&').forEach(function(part, index) {
+      if (index === 0 && part.indexOf('=') === -1) activeTab = part || 'all';
+      var kv = part.split('=');
+      if (kv[0] === 'area') area.value = decodeURIComponent(kv[1] || '');
+      if (kv[0] === 'q') search.value = decodeURIComponent(kv[1] || '');
+      if (kv[0] === 'years') {
+        var selected = (kv[1] || '').split(',');
+        years.forEach(function(y) { y.checked = selected.indexOf(y.value) > -1; });
+      }
+    });
+  }
+
+  function filter() {
+    var q = search.value.trim().toLowerCase();
+    var areaValue = area.value;
+    var ys = selectedYears();
+    var visible = 0;
+    items.forEach(function(item) {
+      var itemAreas = JSON.parse(item.dataset.areas || '[]');
+      var show = (activeTab === 'all' || item.dataset.tab === activeTab);
+      if (q && item.dataset.search.indexOf(q) === -1) show = false;
+      if (areaValue && itemAreas.indexOf(areaValue) === -1) show = false;
+      if (ys.length && ys.indexOf(item.dataset.year) === -1) show = false;
+      item.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    tabs.forEach(function(btn) {
+      var on = btn.dataset.tab === activeTab;
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    countEl.textContent = visible + ' of ' + items.length + ' results';
+    setHash();
+  }
+
+  function sortItems() {
+    var mode = sort.value;
+    items.sort(function(a, b) {
+      if (mode === 'oldest') return Number(a.dataset.date) - Number(b.dataset.date);
+      if (mode === 'az') return a.dataset.title.localeCompare(b.dataset.title);
+      if (mode === 'za') return b.dataset.title.localeCompare(a.dataset.title);
+      return Number(b.dataset.date) - Number(a.dataset.date);
+    });
+    items.forEach(function(item) { list.appendChild(item); });
+    filter();
+  }
+
+  tabs.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      activeTab = btn.dataset.tab;
+      filter();
+    });
+  });
+  search.addEventListener('input', filter);
+  area.addEventListener('change', filter);
+  years.forEach(function(y) { y.addEventListener('change', filter); });
+  sort.addEventListener('change', sortItems);
+  reset.addEventListener('click', function() {
+    activeTab = 'all';
+    search.value = '';
+    area.value = '';
+    years.forEach(function(y) { y.checked = false; });
+    sort.value = 'newest';
+    sortItems();
+  });
+  cite.addEventListener('click', function() {
+    var visible = items.filter(function(item) { return item.style.display !== 'none'; });
+    var body = visible.map(function(item) { return item.dataset.bibtex; }).join('\n\n');
+    var blob = new Blob([body], { type: 'application/x-bibtex' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'daniel-ershov-citations.bib';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  syncFilterPanel();
+  window.addEventListener('resize', syncFilterPanel);
+  parseHash();
+  sortItems();
+})();
+</script>
+{{ end }}

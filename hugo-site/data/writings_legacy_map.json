@@ -1,0 +1,84 @@
+{
+  "entries": {
+    "interaction-spectrum-auctions-mobile-market-competition": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "estimating-complementarity-large-choice-sets": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "how-much-influencer-marketing-undisclosed": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "ai-cognitive-offloading-critical-thinking-ucl": {
+      "tab": "policy",
+      "legacy": "policy"
+    },
+    "effects-advertising-disclosure-regulations-social-media": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "majority-influencer-advertising-undisclosed-cepr": {
+      "tab": "policy",
+      "legacy": "cepr_contribution"
+    },
+    "sharing-news-left-right": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "sharing-news-left-right-cepr": {
+      "tab": "policy",
+      "legacy": "cepr_contribution"
+    },
+    "pricing-algorithms-third-party-facilitators-collusion": {
+      "tab": "policy",
+      "legacy": "policy"
+    },
+    "algorithmic-pricing-competition-cpi-antitrust-chronicle": {
+      "tab": "policy",
+      "legacy": "policy"
+    },
+    "algorithmic-pricing-competition-german-retail-gasoline-market": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "variety-based-congestion-online-markets": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "autonomous-algorithmic-collusion": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "market-incentives-business-innovation-canada": {
+      "tab": "articles",
+      "legacy": "published"
+    },
+    "what-happens-when-dating-goes-online": {
+      "tab": "working-papers",
+      "legacy": "working_paper"
+    },
+    "outsourcing-algorithm-development-contractors-llms": {
+      "tab": "working-papers",
+      "legacy": "working_paper"
+    },
+    "expansion-influencer-advertising-ncaa-nil": {
+      "tab": "working-papers",
+      "legacy": "working_paper"
+    },
+    "learned-complementarity": {
+      "tab": "working-papers",
+      "legacy": "working_paper"
+    },
+    "competing-superstars-mobile-app-market": {
+      "tab": "resting-papers",
+      "legacy": "resting"
+    },
+    "estimating-effects-deregulation-ontario-wine": {
+      "tab": "resting-papers",
+      "legacy": "resting"
+    }
+  }
+}

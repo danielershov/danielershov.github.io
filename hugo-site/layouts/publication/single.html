@@ -1,0 +1,50 @@
+{{ define "main" }}
+<article class="page-shell publication-detail">
+  <div class="prose">
+    <p><a href="{{ "/" | relURL }}">Home</a> / <a href="{{ "publication/" | relURL }}">Research</a></p>
+    <h1>{{ .Title }}</h1>
+    <p class="pub-citation">
+      <span class="authors">{{ delimit .Params.authors ", " }}.</span>
+      <span class="meta">{{ .Date.Format "2006" }}.</span>
+      {{ with .Params.publication }}<span class="venue">{{ . }}.</span>{{ end }}
+    </p>
+    {{ with .Params.abstract }}
+      <h2 id="abstract">Abstract</h2>
+      <p>{{ . }}</p>
+    {{ end }}
+    {{ with .Params.main_finding }}
+      <h2 id="main-finding">Main Finding</h2>
+      <p>{{ . }}</p>
+    {{ end }}
+    {{ with .Params.policy_relevance }}
+      <h2 id="policy-relevance">Policy Relevance</h2>
+      <p>{{ . }}</p>
+    {{ end }}
+    {{ with .Params.notes }}
+      <h2 id="notes">Notes</h2>
+      <ul>
+        {{ range . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    {{ end }}
+    {{ with .Params.links }}
+      <div class="pub-links">
+        {{ range . }}
+          <a class="btn btn-chip" href="{{ .url }}">{{ .name }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+    {{ .Content }}
+    {{ partial "related_finder.html" . }}
+  </div>
+  <aside class="metadata-card">
+    <dl>
+      <dt>Authors</dt>
+      <dd>{{ delimit .Params.authors ", " }}</dd>
+      <dt>Year</dt>
+      <dd>{{ .Date.Format "2006" }}</dd>
+      {{ with .Params.publication }}<dt>Venue</dt><dd>{{ . }}</dd>{{ end }}
+      {{ with .Params.tags }}<dt>Tags</dt><dd>{{ delimit . ", " }}</dd>{{ end }}
+    </dl>
+  </aside>
+</article>
+{{ end }}

@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "hugo --gc --minify",
+    "pagefind": "pagefind --site public"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.0"
+  }
+}
